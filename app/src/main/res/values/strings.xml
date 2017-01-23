@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">firebase_message</string>
+    <string name="title_activity_gcm_notification" translatable="false">Activity for GcmTests</string>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.didekin.open.message">
+
+    <application tools:ignore="AllowBackup">
+        <!-- Activity for UIException tests. -->
+        <activity
+            android:name="com.didekin.open.message.MockActivity"
+            android:label="MockActivity"
+            android:launchMode="singleTask"
+            tools:node="replace">
+        </activity>
+    </application>
+</manifest>
