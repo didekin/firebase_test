@@ -1,6 +1,5 @@
 package com.didekin.open.message;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -8,6 +7,7 @@ import timber.log.Timber;
 
 public class MockActivity extends AppCompatActivity {
 
+    @SuppressWarnings("unused")
     volatile short counter;
 
     @Override

@@ -42,9 +42,9 @@ ext {
     espressoVersion = '2.2.2'
     testRunnerRulesVersion = '0.5'
 
-    model_lib = ':client_lib-a-0.1.10:@jar'
-    gcm_model_lib = ':client_gcm_lib-a-0.1.10:@jar'
-    retrofit_model_lib = ':retrofit_client-a-0.1.10:@jar'
+    model_lib = ':client_lib-a-0.1.11:@jar'
+    gcm_model_lib = ':client_gcm_lib-a-0.1.11:@jar'
+    retrofit_model_lib = ':retrofit_client-a-0.1.11:@jar'
 
     firebase_message = ['com.google.firebase:firebase-messaging:10.0.1', gcm_model_lib]
 
