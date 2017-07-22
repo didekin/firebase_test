@@ -2,13 +2,13 @@ package com.didekin.open.message;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.didekin.retrofit.RetrofitHandler;
-import com.didekinservice.common.gcm.GcmMulticastRequest;
-import com.didekinservice.common.gcm.GcmRequest;
-import com.didekinservice.common.gcm.GcmResponse;
-import com.didekinservice.common.gcm.GcmSingleRequest;
-import com.didekinservice.incidservice.gcm.GcmIncidRequestData;
-import com.didekinservice.retrofit.GcmEndPointImp;
+import com.didekinlib.gcm.model.common.GcmMulticastRequest;
+import com.didekinlib.gcm.model.common.GcmRequest;
+import com.didekinlib.gcm.model.common.GcmResponse;
+import com.didekinlib.gcm.model.common.GcmSingleRequest;
+import com.didekinlib.gcm.model.incidservice.GcmIncidRequestData;
+import com.didekinlib.gcm.retrofit.GcmEndPointImp;
+import com.didekinlib.gcm.retrofit.GcmRetrofitHandler;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.junit.After;
@@ -21,14 +21,14 @@ import java.util.List;
 
 import retrofit2.Response;
 
-import static com.didekin.incidencia.gcm.GcmKeyValueIncidData.incidencia_open_type;
 import static com.didekin.open.message.GcmServTestConstant.PACKAGE_TEST;
 import static com.didekin.open.message.GcmServTestConstant.test_api_key_header;
-import static com.didekinservice.common.GcmServConstant.FCM_HOST_PORT;
-import static com.didekinservice.common.GcmServConstant.IDENTITY;
-import static com.didekinservice.common.gcm.GcmErrorMessage.InvalidJson;
-import static com.didekinservice.common.gcm.GcmErrorMessage.InvalidRegistration;
-import static com.didekinservice.common.gcm.GcmErrorMessage.MissingRegistration;
+import static com.didekinlib.gcm.model.common.GcmErrorMessage.InvalidJson;
+import static com.didekinlib.gcm.model.common.GcmErrorMessage.InvalidRegistration;
+import static com.didekinlib.gcm.model.common.GcmErrorMessage.MissingRegistration;
+import static com.didekinlib.gcm.model.common.GcmServConstant.FCM_HOST_PORT;
+import static com.didekinlib.gcm.model.common.GcmServConstant.IDENTITY;
+import static com.didekinlib.model.incidencia.gcm.GcmKeyValueIncidData.incidencia_open_type;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -50,7 +50,7 @@ public class GcmRequestTest {
     public void setUp() throws Exception
     {
         firebaseInstanceId = FirebaseInstanceId.getInstance();
-        RetrofitHandler retrofitHandler = new RetrofitHandler(FCM_HOST_PORT, 60);
+        GcmRetrofitHandler retrofitHandler = new GcmRetrofitHandler(FCM_HOST_PORT, 60);
         endPointImp = new GcmEndPointImp(retrofitHandler);
     }
 
@@ -64,29 +64,29 @@ public class GcmRequestTest {
     /**
      * Message:
      * {
-     *   "collapse_key":"incidencia_open",
-     *    "data":
-     *     {
-     *       "comunidadId":999,"typeMsg":"incidencia_open"
-     *     },
-     *   "to":"dSTSQVcvvFY:APA91bGNnRhG4Xg2XdzSo5vQWnfzIrx9n8KN3hvfdP_1p8hWS-BM5OvW7Ayk9x1mX5QkTapvKElRh1lYk5LNovT6CC0MI8oV2ynm0KfZaykISLgfmHwoaiysjqTYXb3yc3ZjpZ5_UG0K",
-     *   "priority":"normal",
-     *   "restricted_package_name":"com.didekin.open.message",
-     *   "time_to_live":1724,
-     *   "delay_while_idle":true
+     * "collapse_key":"incidencia_open",
+     * "data":
+     * {
+     * "comunidadId":999,"typeMsg":"incidencia_open"
+     * },
+     * "to":"dSTSQVcvvFY:APA91bGNnRhG4Xg2XdzSo5vQWnfzIrx9n8KN3hvfdP_1p8hWS-BM5OvW7Ayk9x1mX5QkTapvKElRh1lYk5LNovT6CC0MI8oV2ynm0KfZaykISLgfmHwoaiysjqTYXb3yc3ZjpZ5_UG0K",
+     * "priority":"normal",
+     * "restricted_package_name":"com.didekin.open.message",
+     * "time_to_live":1724,
+     * "delay_while_idle":true
      * }
      * <p/>
      * Returns a success response:
      * {
-     *   "multicast_id":6325292282044173802,
-     *   "success":1,
-     *   "failure":0,
-     *   "canonical_ids":0,
-     *   "results":
-     *     [
-     *       { "message_id":"0:1484156536127962%1c4870d416025130" }
-     *     ]
-     *  }
+     * "multicast_id":6325292282044173802,
+     * "success":1,
+     * "failure":0,
+     * "canonical_ids":0,
+     * "results":
+     * [
+     * { "message_id":"0:1484156536127962%1c4870d416025130" }
+     * ]
+     * }
      */
     @Test
     public void testSuccessSingle_1() throws Exception
@@ -122,21 +122,21 @@ public class GcmRequestTest {
     /**
      * Sinqle request gcmToken is null.
      * {
-     *   "collapse_key":"incidencia_open",
-     *   "data":
-     *     {
-     *       "comunidadId":999,
-     *       "typeMsg":"incidencia_open"
-     *     },
-     *   "priority":"normal",
-     *   "restricted_package_name":"com.didekin.open.message",
-     *   "time_to_live":1724,
-     *   "delay_while_idle":true
+     * "collapse_key":"incidencia_open",
+     * "data":
+     * {
+     * "comunidadId":999,
+     * "typeMsg":"incidencia_open"
+     * },
+     * "priority":"normal",
+     * "restricted_package_name":"com.didekin.open.message",
+     * "time_to_live":1724,
+     * "delay_while_idle":true
      * }
      * <p/>
      * It does not return an error response, only:
-     *  400 Bad Request
-     *  to
+     * 400 Bad Request
+     * to
      */
     @Test
     public void testErrorSingle_1() throws Exception
@@ -153,12 +153,12 @@ public class GcmRequestTest {
      * <p/>
      * It returns an error message:
      * {
-     *   "multicast_id":7944507699481397986,
-     *   "success":0,"failure":1,
-     *   "canonical_ids":0,
-     *   "results":[
-     *     {"error":"InvalidRegistration"}
-     *   ]
+     * "multicast_id":7944507699481397986,
+     * "success":0,"failure":1,
+     * "canonical_ids":0,
+     * "results":[
+     * {"error":"InvalidRegistration"}
+     * ]
      * }
      */
     @Test
@@ -181,31 +181,31 @@ public class GcmRequestTest {
     /**
      * Two equal tokens.
      * {
-     *  "collapse_key":"incidencia_open",
-     *  "data":
-     *    { "comunidadId":999,
-     *      "typeMsg":"incidencia_open"
-     *    },
-     *  "restricted_package_name":"com.didekin.open.message",
-     *  "priority":"normal",
-     *  "registration_ids": [
-     *     "dSTSQVcvvFY:APA91bGNnRhG4Xg2XdzSo5vQWnfzIrx9n8KN3hvfdP_1p8hWS-BM5OvW7Ayk9x1mX5QkTapvKElRh1lYk5LNovT6CC0MI8oV2ynm0KfZaykISLgfmHwoaiysjqTYXb3yc3ZjpZ5_UG0K",
-     *     "dSTSQVcvvFY:APA91bGNnRhG4Xg2XdzSo5vQWnfzIrx9n8KN3hvfdP_1p8hWS-BM5OvW7Ayk9x1mX5QkTapvKElRh1lYk5LNovT6CC0MI8oV2ynm0KfZaykISLgfmHwoaiysjqTYXb3yc3ZjpZ5_UG0K"
-     *   ],
-     *   "delay_while_idle":true,
-     *   "time_to_live":1724
+     * "collapse_key":"incidencia_open",
+     * "data":
+     * { "comunidadId":999,
+     * "typeMsg":"incidencia_open"
+     * },
+     * "restricted_package_name":"com.didekin.open.message",
+     * "priority":"normal",
+     * "registration_ids": [
+     * "dSTSQVcvvFY:APA91bGNnRhG4Xg2XdzSo5vQWnfzIrx9n8KN3hvfdP_1p8hWS-BM5OvW7Ayk9x1mX5QkTapvKElRh1lYk5LNovT6CC0MI8oV2ynm0KfZaykISLgfmHwoaiysjqTYXb3yc3ZjpZ5_UG0K",
+     * "dSTSQVcvvFY:APA91bGNnRhG4Xg2XdzSo5vQWnfzIrx9n8KN3hvfdP_1p8hWS-BM5OvW7Ayk9x1mX5QkTapvKElRh1lYk5LNovT6CC0MI8oV2ynm0KfZaykISLgfmHwoaiysjqTYXb3yc3ZjpZ5_UG0K"
+     * ],
+     * "delay_while_idle":true,
+     * "time_to_live":1724
      * }
      * <p/>
      * Returns a success response:
      * {
-     *  "multicast_id":7063623012347955082,
-     *  "success":2,
-     *  "failure":0,
-     *  "canonical_ids":0,
-     *  "results":[
-     *    {"message_id":"0:1484211780115622%1c4870d416025130"},
-     *    {"message_id":"0:1484211780115956%1c4870d416025130"}
-     *   ]
+     * "multicast_id":7063623012347955082,
+     * "success":2,
+     * "failure":0,
+     * "canonical_ids":0,
+     * "results":[
+     * {"message_id":"0:1484211780115622%1c4870d416025130"},
+     * {"message_id":"0:1484211780115956%1c4870d416025130"}
+     * ]
      * }
      */
     @Test
@@ -230,25 +230,25 @@ public class GcmRequestTest {
     /**
      * Multicast with one token.
      * {
-     *   "collapse_key":"incidencia_open",
-     *   "data":
-     *     {
-     *       "comunidadId":999,
-     *       "typeMsg":"incidencia_open"},
-     *       "restricted_package_name":"com.didekin.open.message",
-     *       "priority":"normal",
-     *       "registration_ids":[
-     *         "dSTSQVcvvFY:APA91bGNnRhG4Xg2XdzSo5vQWnfzIrx9n8KN3hvfdP_1p8hWS-BM5OvW7Ayk9x1mX5QkTapvKElRh1lYk5LNovT6CC0MI8oV2ynm0KfZaykISLgfmHwoaiysjqTYXb3yc3ZjpZ5_UG0K"
-     *        ],
-     *        "delay_while_idle":true,"time_to_live":1724}
-     *
+     * "collapse_key":"incidencia_open",
+     * "data":
+     * {
+     * "comunidadId":999,
+     * "typeMsg":"incidencia_open"},
+     * "restricted_package_name":"com.didekin.open.message",
+     * "priority":"normal",
+     * "registration_ids":[
+     * "dSTSQVcvvFY:APA91bGNnRhG4Xg2XdzSo5vQWnfzIrx9n8KN3hvfdP_1p8hWS-BM5OvW7Ayk9x1mX5QkTapvKElRh1lYk5LNovT6CC0MI8oV2ynm0KfZaykISLgfmHwoaiysjqTYXb3yc3ZjpZ5_UG0K"
+     * ],
+     * "delay_while_idle":true,"time_to_live":1724}
+     * <p>
      * Response:
      * {
-     *   "multicast_id":5983532832643241790,
-     *   "success":1,"failure":0,"canonical_ids":0,
-     *   "results":[
-     *     {"message_id":"0:1484212175345232%1c4870d416025130"}
-     *   ]
+     * "multicast_id":5983532832643241790,
+     * "success":1,"failure":0,"canonical_ids":0,
+     * "results":[
+     * {"message_id":"0:1484212175345232%1c4870d416025130"}
+     * ]
      * }
      */
     @Test
@@ -288,28 +288,28 @@ public class GcmRequestTest {
 
     /**
      * Sinqle gcmToken is an empty String.
-     *  {
-     *    "collapse_key":"incidencia_open",
-     *    "data":{
-     *      "comunidadId":999,
-     *      "typeMsg":"incidencia_open"
-     *    },
-     *    "restricted_package_name":"com.didekin.open.message",
-     *    "priority":"normal",
-     *    "registration_ids":[""],
-     *    "delay_while_idle":true,
-     *    "time_to_live":1724
-     *  }
+     * {
+     * "collapse_key":"incidencia_open",
+     * "data":{
+     * "comunidadId":999,
+     * "typeMsg":"incidencia_open"
+     * },
+     * "restricted_package_name":"com.didekin.open.message",
+     * "priority":"normal",
+     * "registration_ids":[""],
+     * "delay_while_idle":true,
+     * "time_to_live":1724
+     * }
      * <p/>
      * Returns:
      * {
-     *   "multicast_id":8747202076195423392,
-     *   "success":0,
-     *   "failure":1,
-     *   "canonical_ids":0,
-     *   "results":[
-     *      {"error":"MissingRegistration"}
-     *    ]
+     * "multicast_id":8747202076195423392,
+     * "success":0,
+     * "failure":1,
+     * "canonical_ids":0,
+     * "results":[
+     * {"error":"MissingRegistration"}
+     * ]
      * }
      */
     @Test
@@ -334,16 +334,16 @@ public class GcmRequestTest {
      * One correct token and three erroneous gcm tokens: empty string, null, wrong String.
      * <p/>
      * {
-     *   "multicast_id":4685823509304870829,
-     *   "success":1,
-     *   "failure":3,
-     *   "canonical_ids":0,
-     *   "results":[
-     *     {"error":"MissingRegistration"},
-     *     {"message_id":"0:1484215901788122%1c4870d416025130"},
-     *     {"error":"InvalidRegistration"},
-     *     {"error":"InvalidRegistration"}
-     *   ]
+     * "multicast_id":4685823509304870829,
+     * "success":1,
+     * "failure":3,
+     * "canonical_ids":0,
+     * "results":[
+     * {"error":"MissingRegistration"},
+     * {"message_id":"0:1484215901788122%1c4870d416025130"},
+     * {"error":"InvalidRegistration"},
+     * {"error":"InvalidRegistration"}
+     * ]
      * }
      */
     @Test
