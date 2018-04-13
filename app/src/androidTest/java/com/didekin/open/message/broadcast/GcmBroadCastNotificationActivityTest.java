@@ -5,12 +5,11 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v4.app.NotificationCompat.Builder;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.NotificationCompat.Builder;
 
 import com.didekin.open.message.R;
 
@@ -20,7 +19,9 @@ import org.junit.runner.RunWith;
 
 import java.util.concurrent.TimeoutException;
 
+import static android.content.Context.NOTIFICATION_SERVICE;
 import static android.graphics.BitmapFactory.decodeResource;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static com.didekin.open.message.broadcast.GcmNotificationListenerServ.GCM_NOTIFICATION_action;
 import static com.didekin.open.message.broadcast.GcmNotificationListenerServ.notification_extra;
 import static com.didekin.open.message.broadcast.GcmNotificationListenerServ.notification_id_extra;
@@ -32,6 +33,7 @@ import static org.junit.Assert.assertThat;
  * Date: 01/12/15
  * Time: 13:50
  */
+@SuppressWarnings({"SameParameterValue", "ConstantConditions"})
 @RunWith(AndroidJUnit4.class)
 public class GcmBroadCastNotificationActivityTest {
 
@@ -42,7 +44,8 @@ public class GcmBroadCastNotificationActivityTest {
     private Context context = InstrumentationRegistry.getTargetContext();
 
     @Rule
-    public ActivityTestRule<GcmBroadCastNotificationActivity> mActivityRule = new ActivityTestRule<>(GcmBroadCastNotificationActivity.class, true, false);
+    public ActivityTestRule<GcmBroadCastNotificationActivity> mActivityRule =
+            new ActivityTestRule<>(GcmBroadCastNotificationActivity.class, true, false);
 
     @Test
     public void testNotification_1() throws TimeoutException, InterruptedException
@@ -56,7 +59,6 @@ public class GcmBroadCastNotificationActivityTest {
         assertThat(mActivity.subText, is(MY_GENERIC_SUBTEXT));
     }
 
-
     //    ======================== HELPER METHODS ==========================
 
     /**
@@ -65,10 +67,10 @@ public class GcmBroadCastNotificationActivityTest {
      * activity.
      * It should not be necessary once the new methods of NotificationManager in API 23 can be used.
      */
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(LOLLIPOP)
     private void sendNotification()
     {
-        Builder mBuilder = (Builder) new Builder(context)
+        Builder mBuilder = new Builder(context, "firebase_test_channel")
                 .setSmallIcon(R.drawable.ic_stat_ic_notification)
                 .setLargeIcon(decodeResource(context.getResources(), R.drawable.ic_launcher))
                 .setCategory(Notification.CATEGORY_SOCIAL)
@@ -79,10 +81,9 @@ public class GcmBroadCastNotificationActivityTest {
 
         Notification notification = mBuilder.build();
 
-        NotificationManager mNotifyMgr =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotifyMgr.notify(/* notification ID*/1, notification);
-
+        NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+        /* notification ID is used as id param */
+        mNotifyMgr.notify(1, notification);
         sendBroadcastMsg(notification, 1);
     }
 

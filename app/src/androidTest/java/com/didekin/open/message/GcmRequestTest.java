@@ -47,7 +47,7 @@ public class GcmRequestTest {
     private List<String> gcmTokens = new ArrayList<>();
 
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {
         firebaseInstanceId = FirebaseInstanceId.getInstance();
         GcmRetrofitHandler retrofitHandler = new GcmRetrofitHandler(FCM_HOST_PORT, 60);
@@ -55,7 +55,7 @@ public class GcmRequestTest {
     }
 
     @After
-    public void tearDown() throws Exception
+    public void tearDown()
     {
     }
 
@@ -88,6 +88,7 @@ public class GcmRequestTest {
      * ]
      * }
      */
+    @SuppressWarnings("ConstantConditions")
     @Test
     public void testSuccessSingle_1() throws Exception
     {
@@ -107,6 +108,7 @@ public class GcmRequestTest {
      * Single with one token and GZIP encoding.
      * We leave 'accept encoding' header as null.
      */
+    @SuppressWarnings("ConstantConditions")
     @Test
     public void testSuccessSingle_2() throws Exception
     {
@@ -161,6 +163,7 @@ public class GcmRequestTest {
      * ]
      * }
      */
+    @SuppressWarnings("ConstantConditions")
     @Test
     public void testErrorSingle_2() throws Exception
     {
@@ -312,6 +315,7 @@ public class GcmRequestTest {
      * ]
      * }
      */
+    @SuppressWarnings("ConstantConditions")
     @Test
     public void testErrorMulticast_1() throws Exception
     {
@@ -346,6 +350,7 @@ public class GcmRequestTest {
      * ]
      * }
      */
+    @SuppressWarnings("ConstantConditions")
     @Test
     public void testErrorMulticast_2() throws Exception
     {
