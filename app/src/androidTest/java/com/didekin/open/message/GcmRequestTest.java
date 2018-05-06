@@ -22,6 +22,8 @@ import java.util.List;
 import retrofit2.Response;
 
 import static com.didekin.open.message.GcmServTestConstant.PACKAGE_TEST;
+import static com.didekin.open.message.GcmServTestConstant.SCOPE_TOKEN;
+import static com.didekin.open.message.GcmServTestConstant.SENDER_ID;
 import static com.didekin.open.message.GcmServTestConstant.test_api_key_header;
 import static com.didekinlib.gcm.model.common.GcmErrorMessage.InvalidJson;
 import static com.didekinlib.gcm.model.common.GcmErrorMessage.InvalidRegistration;
@@ -92,7 +94,7 @@ public class GcmRequestTest {
     @Test
     public void testSuccessSingle_1() throws Exception
     {
-        String gcmToken = firebaseInstanceId.getToken();
+        String gcmToken = firebaseInstanceId.getToken(SENDER_ID, SCOPE_TOKEN);
         GcmSingleRequest request = new GcmSingleRequest.Builder(gcmToken,
                 new GcmRequest.Builder(new GcmIncidRequestData(incidencia_open_type, 999L), PACKAGE_TEST).build())
                 .build();
@@ -214,7 +216,7 @@ public class GcmRequestTest {
     @Test
     public void testSuccessMulticast_1() throws Exception
     {
-        String token = firebaseInstanceId.getToken();
+        String token = firebaseInstanceId.getToken(SENDER_ID, SCOPE_TOKEN);
         gcmTokens.add(token);
         // We use the same token again.
         gcmTokens.add(token);
