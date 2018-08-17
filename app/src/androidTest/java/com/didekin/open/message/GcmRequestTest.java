@@ -6,7 +6,7 @@ import com.didekinlib.gcm.model.common.GcmMulticastRequest;
 import com.didekinlib.gcm.model.common.GcmRequest;
 import com.didekinlib.gcm.model.common.GcmResponse;
 import com.didekinlib.gcm.model.common.GcmSingleRequest;
-import com.didekinlib.gcm.model.incidservice.GcmIncidRequestData;
+import com.didekinlib.gcm.model.incidservice.GcmRequestData;
 import com.didekinlib.gcm.retrofit.GcmEndPointImp;
 import com.didekinlib.gcm.retrofit.GcmRetrofitHandler;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -16,14 +16,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Response;
 
-import static com.didekin.open.message.GcmServTestConstant.PACKAGE_TEST;
-import static com.didekin.open.message.GcmServTestConstant.SCOPE_TOKEN;
-import static com.didekin.open.message.GcmServTestConstant.SENDER_ID;
+import static com.didekin.open.message.GcmServConstant.PACKAGE;
+import static com.didekin.open.message.GcmServConstant.SCOPE_TOKEN;
+import static com.didekin.open.message.GcmServConstant.SENDER_ID;
 import static com.didekin.open.message.GcmServTestConstant.test_api_key_header;
 import static com.didekinlib.gcm.model.common.GcmErrorMessage.InvalidJson;
 import static com.didekinlib.gcm.model.common.GcmErrorMessage.InvalidRegistration;
@@ -31,6 +32,7 @@ import static com.didekinlib.gcm.model.common.GcmErrorMessage.MissingRegistratio
 import static com.didekinlib.gcm.model.common.GcmServConstant.FCM_HOST_PORT;
 import static com.didekinlib.gcm.model.common.GcmServConstant.IDENTITY;
 import static com.didekinlib.model.incidencia.gcm.GcmKeyValueIncidData.incidencia_open_type;
+import static com.google.firebase.iid.FirebaseInstanceId.getInstance;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -96,7 +98,7 @@ public class GcmRequestTest {
     {
         String gcmToken = firebaseInstanceId.getToken(SENDER_ID, SCOPE_TOKEN);
         GcmSingleRequest request = new GcmSingleRequest.Builder(gcmToken,
-                new GcmRequest.Builder(new GcmIncidRequestData(incidencia_open_type, 999L), PACKAGE_TEST).build())
+                new GcmRequest.Builder(new GcmRequestData(incidencia_open_type, 999L), PACKAGE).build())
                 .build();
         GcmResponse gcmResponse = endPointImp.sendGcmSingleRequest(IDENTITY, test_api_key_header, request).execute().body();
         assertThat(gcmResponse.getResults()[0].getMessage_id().equals(gcmToken), is(false));
@@ -114,9 +116,9 @@ public class GcmRequestTest {
     @Test
     public void testSuccessSingle_2() throws Exception
     {
-        String gcmToken = firebaseInstanceId.getToken();
+        String gcmToken = getInstance().getToken(SENDER_ID, SCOPE_TOKEN);
         GcmSingleRequest request = new GcmSingleRequest.Builder(gcmToken,
-                new GcmRequest.Builder(new GcmIncidRequestData(incidencia_open_type, 999L), PACKAGE_TEST).build())
+                new GcmRequest.Builder(new GcmRequestData(incidencia_open_type, 999L), PACKAGE).build())
                 .build();
         GcmResponse gcmResponse = endPointImp.sendGcmSingleRequest(null, test_api_key_header, request).execute().body();
         assertThat(gcmResponse.getFailure(), is(0));
@@ -146,7 +148,7 @@ public class GcmRequestTest {
     public void testErrorSingle_1() throws Exception
     {
         GcmSingleRequest request = new GcmSingleRequest.Builder(null,
-                new GcmRequest.Builder(new GcmIncidRequestData(incidencia_open_type, 999L), PACKAGE_TEST).build())
+                new GcmRequest.Builder(new GcmRequestData(incidencia_open_type, 999L), PACKAGE).build())
                 .build();
         Response response = endPointImp.sendGcmSingleRequest(IDENTITY, test_api_key_header, request).execute();
         assertThat(response.raw().code(), is(InvalidJson.httpStatusCode));
@@ -170,7 +172,7 @@ public class GcmRequestTest {
     public void testErrorSingle_2() throws Exception
     {
         GcmSingleRequest request = new GcmSingleRequest.Builder("wrong_token",
-                new GcmRequest.Builder(new GcmIncidRequestData(incidencia_open_type, 999L), PACKAGE_TEST).build())
+                new GcmRequest.Builder(new GcmRequestData(incidencia_open_type, 999L), PACKAGE).build())
                 .build();
         Response<GcmResponse> response = endPointImp.sendGcmSingleRequest(IDENTITY, test_api_key_header, request).execute();
         assertThat(response.raw().code(), is(InvalidRegistration.httpStatusCode));
@@ -221,7 +223,7 @@ public class GcmRequestTest {
         // We use the same token again.
         gcmTokens.add(token);
         GcmMulticastRequest request = new GcmMulticastRequest.Builder(gcmTokens,
-                new GcmRequest.Builder(new GcmIncidRequestData(incidencia_open_type, 999L), PACKAGE_TEST).build())
+                new GcmRequest.Builder(new GcmRequestData(incidencia_open_type, 999L), PACKAGE).build())
                 .build();
         GcmResponse gcmResponse = endPointImp.sendMulticast(IDENTITY, test_api_key_header, request);
         assertThat(gcmResponse.getResults()[0].getMessage_id(), notNullValue());
@@ -259,9 +261,9 @@ public class GcmRequestTest {
     @Test
     public void testSuccessMulticast_2() throws Exception
     {
-        gcmTokens.add(firebaseInstanceId.getToken());
+        gcmTokens.add(getInstance().getToken(SENDER_ID, SCOPE_TOKEN));
         GcmMulticastRequest request = new GcmMulticastRequest.Builder(gcmTokens,
-                new GcmRequest.Builder(new GcmIncidRequestData(incidencia_open_type, 999L), PACKAGE_TEST).build())
+                new GcmRequest.Builder(new GcmRequestData(incidencia_open_type, 999L), PACKAGE).build())
                 .build();
         GcmResponse gcmResponse = endPointImp.sendMulticast(IDENTITY, test_api_key_header, request);
         Thread.sleep(500);
@@ -277,11 +279,11 @@ public class GcmRequestTest {
      * We leave 'accept encoding' header as null.
      */
     @Test
-    public void testSuccessMulticast_3() throws Exception
+    public void testSuccessMulticast_3() throws IOException
     {
-        gcmTokens.add(firebaseInstanceId.getToken());
+        gcmTokens.add(getInstance().getToken(SENDER_ID, SCOPE_TOKEN));
         GcmMulticastRequest request = new GcmMulticastRequest.Builder(gcmTokens,
-                new GcmRequest.Builder(new GcmIncidRequestData(incidencia_open_type, 999L), PACKAGE_TEST).build())
+                new GcmRequest.Builder(new GcmRequestData(incidencia_open_type, 999L), PACKAGE).build())
                 .build();
         GcmResponse gcmResponse = endPointImp.sendMulticast(null, test_api_key_header, request);
         assertThat(gcmResponse.getResults()[0].getMessage_id(), notNullValue());
@@ -323,7 +325,7 @@ public class GcmRequestTest {
     {
         gcmTokens.add("");
         GcmMulticastRequest request = new GcmMulticastRequest.Builder(gcmTokens,
-                new GcmRequest.Builder(new GcmIncidRequestData(incidencia_open_type, 999L), PACKAGE_TEST).build())
+                new GcmRequest.Builder(new GcmRequestData(incidencia_open_type, 999L), PACKAGE).build())
                 .build();
         Response<GcmResponse> response = endPointImp.sendGcmMulticastRequest(IDENTITY, test_api_key_header, request).execute();
         assertThat(response.raw().code(), is(MissingRegistration.httpStatusCode));
@@ -357,11 +359,11 @@ public class GcmRequestTest {
     public void testErrorMulticast_2() throws Exception
     {
         gcmTokens.add("");
-        gcmTokens.add(firebaseInstanceId.getToken());
+        gcmTokens.add(getInstance().getToken(SENDER_ID, SCOPE_TOKEN));
         gcmTokens.add(null);
         gcmTokens.add("wrong_token");
         GcmMulticastRequest request = new GcmMulticastRequest.Builder(gcmTokens,
-                new GcmRequest.Builder(new GcmIncidRequestData(incidencia_open_type, 999L), PACKAGE_TEST).build())
+                new GcmRequest.Builder(new GcmRequestData(incidencia_open_type, 999L), PACKAGE).build())
                 .build();
         Response<GcmResponse> response = endPointImp.sendGcmMulticastRequest(IDENTITY, test_api_key_header, request).execute();
         assertThat(response.raw().code(), is(200));

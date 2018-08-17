@@ -3,7 +3,7 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.didekin.open.message">
 
-    <application tools:ignore="AllowBackup">
+    <application tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <!-- Activity for UIException tests. -->
         <activity
             android:name="com.didekin.open.message.MockActivity"

@@ -18,10 +18,6 @@ android {
         targetCompatibility = "1.8"
     }
 
-    testOptions {
-        execution 'ANDROID_TEST_ORCHESTRATOR'
-    }
-
     signingConfigs {
         release {
             if (project.hasProperty('keyalias')) {
@@ -71,8 +67,7 @@ dependencies {
     implementation rootProject.ext.didekinlib_model
     implementation rootProject.ext.didekinlib_http
     implementation rootProject.ext.timber
-    runtimeOnly rootProject.ext.retrofit2
-    implementation rootProject.ext.rxjava
+    implementation rootProject.ext.retrofit2
     implementation rootProject.ext.android_support
 
     androidTestImplementation rootProject.ext.testRuler
@@ -80,7 +75,6 @@ dependencies {
     androidTestImplementation rootProject.ext.didekinlib_gcm
     androidTestImplementation rootProject.ext.awaitility
     androidTestImplementation rootProject.ext.testRunner
-    androidTestUtil rootProject.ext.testOrchestrator
     testImplementation rootProject.ext.junit
 }
 
