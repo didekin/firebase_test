@@ -12,6 +12,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+        FireBaseIdTest.class,
         GcmBroadCastNotificationActivityTest.class,
         GcmRequestTest.class,
 })

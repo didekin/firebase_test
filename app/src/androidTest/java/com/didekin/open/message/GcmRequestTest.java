@@ -2,13 +2,13 @@ package com.didekin.open.message;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.didekinlib.gcm.model.common.GcmMulticastRequest;
-import com.didekinlib.gcm.model.common.GcmRequest;
-import com.didekinlib.gcm.model.common.GcmResponse;
-import com.didekinlib.gcm.model.common.GcmSingleRequest;
-import com.didekinlib.gcm.model.incidservice.GcmRequestData;
-import com.didekinlib.gcm.retrofit.GcmEndPointImp;
-import com.didekinlib.gcm.retrofit.GcmRetrofitHandler;
+import com.didekinlib.gcm.GcmMulticastRequest;
+import com.didekinlib.gcm.GcmRequest;
+import com.didekinlib.gcm.GcmRequestData;
+import com.didekinlib.gcm.GcmResponse;
+import com.didekinlib.gcm.GcmSingleRequest;
+import com.didekinlib.http.retrofit.GcmEndPointImp;
+import com.didekinlib.http.retrofit.GcmRetrofitHandler;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.junit.After;
@@ -26,11 +26,11 @@ import static com.didekin.open.message.GcmServConstant.PACKAGE;
 import static com.didekin.open.message.GcmServConstant.SCOPE_TOKEN;
 import static com.didekin.open.message.GcmServConstant.SENDER_ID;
 import static com.didekin.open.message.GcmServTestConstant.test_api_key_header;
-import static com.didekinlib.gcm.model.common.GcmErrorMessage.InvalidJson;
-import static com.didekinlib.gcm.model.common.GcmErrorMessage.InvalidRegistration;
-import static com.didekinlib.gcm.model.common.GcmErrorMessage.MissingRegistration;
-import static com.didekinlib.gcm.model.common.GcmServConstant.FCM_HOST_PORT;
-import static com.didekinlib.gcm.model.common.GcmServConstant.IDENTITY;
+import static com.didekinlib.gcm.GcmErrorMessage.InvalidJson;
+import static com.didekinlib.gcm.GcmErrorMessage.InvalidRegistration;
+import static com.didekinlib.gcm.GcmErrorMessage.MissingRegistration;
+import static com.didekinlib.gcm.GcmServConstant.FCM_HOST_PORT;
+import static com.didekinlib.gcm.GcmServConstant.IDENTITY;
 import static com.didekinlib.model.incidencia.gcm.GcmKeyValueIncidData.incidencia_open_type;
 import static com.google.firebase.iid.FirebaseInstanceId.getInstance;
 import static org.hamcrest.CoreMatchers.is;

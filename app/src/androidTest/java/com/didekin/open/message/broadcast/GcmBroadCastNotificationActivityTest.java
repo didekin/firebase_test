@@ -17,8 +17,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.concurrent.TimeoutException;
-
 import static android.content.Context.NOTIFICATION_SERVICE;
 import static android.graphics.BitmapFactory.decodeResource;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
@@ -48,7 +46,7 @@ public class GcmBroadCastNotificationActivityTest {
             new ActivityTestRule<>(GcmBroadCastNotificationActivity.class, true, false);
 
     @Test
-    public void testNotification_1() throws TimeoutException, InterruptedException
+    public void testNotification_1() throws InterruptedException
     {
         GcmBroadCastNotificationActivity mActivity = mActivityRule.launchActivity(new Intent());
         sendNotification();

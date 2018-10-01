@@ -3,7 +3,6 @@ package com.didekin.open.message;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
 import org.junit.Test;
